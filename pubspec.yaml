@@ -1,0 +1,38 @@
+name: healthmate
+description: A personal health tracker application for daily health activities monitoring
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  provider: ^6.1.1
+  
+  # Database
+  sqflite: ^2.3.0
+  sqflite_common_ffi: ^2.3.0
+  path: ^1.8.3
+  
+  # Date formatting
+  intl: ^0.18.1
+  
+  # UI Components
+  cupertino_icons: ^1.0.6
+  fl_chart: ^0.65.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # Add assets here if needed
+  # assets:
+  #   - images/
