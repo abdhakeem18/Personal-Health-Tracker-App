@@ -230,7 +230,7 @@ class _AddEditRecordScreenState extends State<AddEditRecordScreen> {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        '🤖 Auto-calculated from steps',
+                                        'Auto-calculated from steps',
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.grey.shade600,

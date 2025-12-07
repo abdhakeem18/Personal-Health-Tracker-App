@@ -111,19 +111,19 @@ class DatabaseHelper {
   Future<void> _insertDummyData(Database db) async {
     var dummyRecords = [
       {
-        'date': '2025-11-28',
+        'date': '2025-11-29',
         'steps': 7823,
         'calories': 412,
         'water': 1800,
       },
       {
-        'date': '2025-11-29',
+        'date': '2025-11-30',
         'steps': 9456,
         'calories': 503,
         'water': 2150,
       },
       {
-        'date': '2025-12-03',
+        'date': '2025-12-04',
         'steps': 6234,
         'calories': 378,
         'water': 1600,
