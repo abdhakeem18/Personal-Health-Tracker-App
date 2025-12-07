@@ -60,17 +60,15 @@ class GoalsProvider with ChangeNotifier {
     return (current / goal * 100).clamp(0, 100);
   }
 
-  // check if goal achieved
   bool isGoalAchieved(int current, int goal) {
     return current >= goal;
   }
 
-  // get motivational msg
   String getMotivationalMessage(double percentage) {
-    if (percentage >= 100) return '🎉 Goal achieved! Amazing!';
-    if (percentage >= 75) return '🔥 Almost there! Keep going!';
-    if (percentage >= 50) return '💪 Great progress! Stay strong!';
-    if (percentage >= 25) return '🌟 Good start! You can do it!';
-    return '🚀 Let\'s get moving!';
+    if (percentage >= 100) return 'Goal achieved! Amazing!';
+    if (percentage >= 75) return 'Almost there! Keep going!';
+    if (percentage >= 50) return 'Great progress! Stay strong!';
+    if (percentage >= 25) return 'Good start! You can do it!';
+    return 'Let\'s get moving!';
   }
 }

@@ -83,6 +83,32 @@ class HealthRecordProvider with ChangeNotifier {
     return await _dbHelper.getStatsByDate(today);
   }
 
+  Map<String, int> getTodayStatsSync() {
+    var today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    var todayRecords =
+        _healthRecords.where((record) => record.date == today).toList();
+
+    if (todayRecords.isEmpty) {
+      return {'steps': 0, 'calories': 0, 'water': 0};
+    }
+
+    int totalSteps = 0;
+    int totalCalories = 0;
+    int totalWater = 0;
+
+    for (var record in todayRecords) {
+      totalSteps += record.steps;
+      totalCalories += record.calories;
+      totalWater += record.water;
+    }
+
+    return {
+      'steps': totalSteps,
+      'calories': totalCalories,
+      'water': totalWater,
+    };
+  }
+
   Future<Map<String, int>> getStatsByDate(String date) async {
     return await _dbHelper.getStatsByDate(date);
   }

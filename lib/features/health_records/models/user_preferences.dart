@@ -96,7 +96,6 @@ class UserPreferences {
     return weight! / (heightInMeters * heightInMeters);
   }
 
-  // get bmi category
   String getBMICategory() {
     var bmi = calculateBMI();
     if (bmi == null) return 'Unknown';
@@ -106,7 +105,6 @@ class UserPreferences {
     return 'Obese';
   }
 
-  // ideal weight range
   Map<String, double>? getIdealWeightRange() {
     if (height == null || height! <= 0) return null;
     var heightInMeters = height! / 100;

@@ -23,7 +23,6 @@ class _GoalsScreenState extends State<GoalsScreen> {
   @override
   void initState() {
     super.initState();
-    // TODO: add preset goal templates
     _dailyStepsController = TextEditingController();
     _dailyCaloriesController = TextEditingController();
     _dailyWaterController = TextEditingController();

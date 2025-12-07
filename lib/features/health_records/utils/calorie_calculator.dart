@@ -93,7 +93,6 @@ class CalorieCalculator {
     return result;
   }
 
-  // get activity level desc
   static String getActivityLevel(int steps) {
     if (steps < 3000) return 'Sedentary';
     if (steps < 5000) return 'Low Active';

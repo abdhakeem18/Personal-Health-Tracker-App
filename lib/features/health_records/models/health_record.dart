@@ -3,7 +3,7 @@ class HealthRecord {
   final String date;
   final int steps;
   final int calories;
-  final int water; // in ml
+  final int water; 
 
   HealthRecord({
     this.id,
@@ -13,7 +13,6 @@ class HealthRecord {
     required this.water,
   });
 
-  // convert to map
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -24,7 +23,6 @@ class HealthRecord {
     };
   }
 
-  // convert from map
   factory HealthRecord.fromMap(Map<String, dynamic> map) {
     return HealthRecord(
       id: map['id'] as int?,
@@ -35,7 +33,6 @@ class HealthRecord {
     );
   }
 
-  // copy with changes
   HealthRecord copyWith({
     int? id,
     String? date,

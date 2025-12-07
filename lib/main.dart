@@ -39,9 +39,7 @@ class MyApp extends StatelessWidget {
               ),
               cardTheme: CardThemeData(
                 elevation: 2,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               inputDecorationTheme: InputDecorationTheme(
                 border: OutlineInputBorder(

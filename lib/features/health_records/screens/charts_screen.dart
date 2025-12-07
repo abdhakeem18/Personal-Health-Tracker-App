@@ -17,7 +17,6 @@ class _ChartsScreenState extends State<ChartsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: maybe add export to pdf feature?
     return Scaffold(
       appBar: AppBar(
         title: const Text('Progress Charts'),

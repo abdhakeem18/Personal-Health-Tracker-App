@@ -279,7 +279,7 @@ class _AddEditRecordScreenState extends State<AddEditRecordScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              '💡 Tip: Enter your steps above to auto-calculate calories',
+                              'Tip: Enter your steps above to auto-calculate calories',
                               style: TextStyle(
                                 fontSize: 11,
                                 color: Colors.grey.shade600,

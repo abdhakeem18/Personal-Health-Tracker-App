@@ -102,11 +102,6 @@ class _DashboardScreenState extends State<DashboardScreen>
 
                           const SizedBox(height: 24),
 
-                          // Weekly Progress
-                          _buildWeeklyProgress(context),
-
-                          const SizedBox(height: 24),
-
                           // Health Tips
                           _buildHealthTips(),
                         ],
@@ -131,13 +126,23 @@ class _DashboardScreenState extends State<DashboardScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Hello! 👋',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                const Row(
+                  children: [
+                    Text(
+                      'Hello!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(
+                      Icons.waving_hand,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -227,72 +232,64 @@ class _DashboardScreenState extends State<DashboardScreen>
               ],
             ),
             const SizedBox(height: 20),
-            Consumer<GoalsProvider>(
-              builder: (context, goalsProvider, _) {
-                return FutureBuilder<Map<String, int>>(
-                  future:
-                      Provider.of<HealthRecordProvider>(context, listen: false)
-                          .getTodayStats(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
+            Consumer2<GoalsProvider, HealthRecordProvider>(
+              builder: (context, goalsProvider, recordProvider, _) {
+                if (recordProvider.isLoading) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
 
-                    final stats = snapshot.data ??
-                        {'steps': 0, 'calories': 0, 'water': 0};
-                    final goals = goalsProvider.goals;
+                final stats = recordProvider.getTodayStatsSync();
+                final goals = goalsProvider.goals;
 
-                    return Column(
-                      children: [
-                        _buildAnimatedStatItem(
-                          icon: Icons.directions_walk,
-                          label: 'Steps',
-                          value: stats['steps']!,
-                          goal: goals.dailyStepsGoal,
-                          unit: '',
-                          color: Colors.green,
-                          progress: goalsProvider.getProgressPercentage(
-                                stats['steps']!,
-                                goals.dailyStepsGoal,
-                              ) /
-                              100,
-                        ),
-                        const SizedBox(height: 16),
-                        _buildAnimatedStatItem(
-                          icon: Icons.local_fire_department,
-                          label: 'Calories',
-                          value: stats['calories']!,
-                          goal: goals.dailyCaloriesGoal,
-                          unit: 'kcal',
-                          color: Colors.orange,
-                          progress: goalsProvider.getProgressPercentage(
-                                stats['calories']!,
-                                goals.dailyCaloriesGoal,
-                              ) /
-                              100,
-                        ),
-                        const SizedBox(height: 16),
-                        _buildAnimatedStatItem(
-                          icon: Icons.water_drop,
-                          label: 'Water',
-                          value: stats['water']!,
-                          goal: goals.dailyWaterGoal,
-                          unit: 'ml',
-                          color: Colors.blue,
-                          progress: goalsProvider.getProgressPercentage(
-                                stats['water']!,
-                                goals.dailyWaterGoal,
-                              ) /
-                              100,
-                        ),
-                      ],
-                    );
-                  },
+                return Column(
+                  children: [
+                    _buildAnimatedStatItem(
+                      icon: Icons.directions_walk,
+                      label: 'Steps',
+                      value: stats['steps']!,
+                      goal: goals.dailyStepsGoal,
+                      unit: '',
+                      color: Colors.green,
+                      progress: goalsProvider.getProgressPercentage(
+                            stats['steps']!,
+                            goals.dailyStepsGoal,
+                          ) /
+                          100,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildAnimatedStatItem(
+                      icon: Icons.local_fire_department,
+                      label: 'Calories',
+                      value: stats['calories']!,
+                      goal: goals.dailyCaloriesGoal,
+                      unit: 'kcal',
+                      color: Colors.orange,
+                      progress: goalsProvider.getProgressPercentage(
+                            stats['calories']!,
+                            goals.dailyCaloriesGoal,
+                          ) /
+                          100,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildAnimatedStatItem(
+                      icon: Icons.water_drop,
+                      label: 'Water',
+                      value: stats['water']!,
+                      goal: goals.dailyWaterGoal,
+                      unit: 'ml',
+                      color: Colors.blue,
+                      progress: goalsProvider.getProgressPercentage(
+                            stats['water']!,
+                            goals.dailyWaterGoal,
+                          ) /
+                          100,
+                    ),
+                  ],
                 );
               },
             ),
@@ -342,8 +339,8 @@ class _DashboardScreenState extends State<DashboardScreen>
                         ),
                       ),
                       if (isGoalAchieved)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8),
                           child: Icon(
                             Icons.check_circle,
                             color: Colors.green,
@@ -553,85 +550,6 @@ class _DashboardScreenState extends State<DashboardScreen>
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildWeeklyProgress(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(10),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.trending_up, color: Colors.teal.shade600, size: 28),
-              const SizedBox(width: 12),
-              const Text(
-                'This Week',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildWeekStat(
-                  'Avg Steps', '8.5K', Icons.directions_walk, Colors.green),
-              _buildWeekStat('Calories', '3.2K', Icons.local_fire_department,
-                  Colors.orange),
-              _buildWeekStat('Water', '14L', Icons.water_drop, Colors.blue),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildWeekStat(
-      String label, String value, IconData icon, Color color) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: color.withAlpha(30),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: color, size: 28),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-          ),
-        ),
-      ],
     );
   }
 
